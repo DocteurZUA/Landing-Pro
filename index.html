@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZUA Express — Le Flux Absolu | Livraison Rapide & Logistique d'Élite à Brazzaville</title>
+  <meta name="description" content="ZUA Express : transport hyper-local haute fidélité, dispatch algorithmique et acheminement immédiat en moins de 45 minutes à Brazzaville.">
+  <meta name="keywords" content="livraison Brazzaville, coursier Congo, ZUA Express, logistique urbaine, livraison rapide Brazzaville">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="ZUA Express — Le Flux Absolu | Brazzaville">
+  <meta property="og:description" content="Acheminement express géo-sécurisé et confidentiel en moins de 45 minutes à Brazzaville.">
+  <meta property="og:type" content="website">
+
+  <!-- Google Fonts: Plus Jakarta Sans, Outfit, Cormorant Garamond, IBM Plex Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400;1,600;1,700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS Play CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            mousse: {
+              DEFAULT: '#2E4036',
+              dark: '#1C2822',
+              light: '#3D5447',
+            },
+            argile: {
+              DEFAULT: '#CC5833',
+              dark: '#A84424',
+              light: '#E26D49',
+            },
+            creme: {
+              DEFAULT: '#F2F0E9',
+              surface: '#FAF9F6',
+              tint: '#E6E3D8',
+            },
+            charbon: {
+              DEFAULT: '#1A1A1A',
+              deep: '#111111',
+              soft: '#252525',
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'Outfit', 'sans-serif'],
+            display: ['"Plus Jakarta Sans"', 'sans-serif'],
+            outfit: ['Outfit', 'sans-serif'],
+            serif: ['"Cormorant Garamond"', 'serif'],
+            mono: ['"IBM Plex Mono"', 'monospace'],
+          },
+          borderRadius: {
+            '2rem': '2rem',
+            '2.5rem': '2.5rem',
+            '3rem': '3rem',
+            '4rem': '4rem',
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- GSAP 3 & ScrollTrigger CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* Design System Fixe : Preset A - Tech Organique */
+    :root {
+      --color-mousse: #2E4036;
+      --color-argile: #CC5833;
+      --color-creme: #F2F0E9;
+      --color-creme-surface: #FAF9F6;
+      --color-charbon: #1A1A1A;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--color-creme);
+      color: var(--color-charbon);
+      font-family: 'Plus Jakarta Sans', 'Outfit', sans-serif;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      overflow-x: hidden;
+      position: relative;
+      background-color: var(--color-creme);
+      margin: 0;
+      padding: 0;
+    }
+
+    /* 1. Global CSS Noise Texture Overlay (0.05 opacity SVG feTurbulence) */
+    .noise-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.05;
+      background: repeat;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+
+    /* 2. Magnetic Button Feeling & Sliding Background */
+    .btn-magnetic {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border-radius: 9999px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.35s ease;
+      will-change: transform;
+    }
+
+    .btn-magnetic:hover {
+      transform: scale(1.03);
+    }
+
+    .btn-magnetic .btn-slide-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      transform: translateY(100%);
+      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      z-index: 0;
+    }
+
+    .btn-magnetic:hover .btn-slide-bg {
+      transform: translateY(0%);
+    }
+
+    .btn-magnetic .btn-content {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color 0.3s ease;
+    }
+
+    /* 3. Interactive lifts translateY(-1px) */
+    .interactive-lift {
+      transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.2s ease;
+    }
+
+    .interactive-lift:hover {
+      transform: translateY(-1px);
+    }
+
+    /* 4. Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 7px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #E8E5DC;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #2E4036;
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #CC5833;
+    }
+
+    /* 5. Custom keyframe animations */
+    @keyframes pulseGlow {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 0.9;
+      }
+      50% {
+        transform: scale(1.35);
+        opacity: 0.4;
+      }
+    }
+
+    .animate-pulse-glow {
+      animation: pulseGlow 2.5s infinite ease-in-out;
+    }
+
+    @keyframes sweepLine {
+      0% {
+        top: 0%;
+        opacity: 0;
+      }
+      20% {
+        opacity: 1;
+      }
+      80% {
+        opacity: 1;
+      }
+      100% {
+        top: 100%;
+        opacity: 0;
+      }
+    }
+
+    .animate-sweep-laser {
+      animation: sweepLine 3.2s infinite ease-in-out;
+    }
+
+    @keyframes rotateSlow {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .animate-rotate-slow {
+      animation: rotateSlow 24s infinite linear;
+    }
+
+    .shuffler-card-transition {
+      transition: transform 800ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 800ms ease;
+    }
+  </style>
+</head>
+<body class="bg-creme text-charbon selection:bg-argile selection:text-white font-sans">
+
+  <!-- Global SVG feTurbulence Noise Overlay -->
+  <div class="noise-overlay" aria-hidden="true"></div>
+
+  <!-- ====================================================================
+      A. NAVBAR — "L'Île Flottante"
+      ==================================================================== -->
+  <header class="fixed top-6 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none">
+    <nav 
+      id="main-nav"
+      class="pointer-events-auto flex items-center justify-between gap-6 px-6 py-3.5 rounded-full transition-all duration-500 max-w-4xl w-full bg-charbon/40 backdrop-blur-md border border-white/10 text-white"
+    >
+      <!-- Brand Logo -->
+      <a href="#" class="flex items-center gap-2.5 font-bold tracking-tight text-lg group">
+        <span class="w-2.5 h-2.5 rounded-full bg-argile animate-pulse-glow"></span>
+        <span class="font-extrabold tracking-tighter text-xl">
+          ZUA<span class="font-light opacity-90">EXPRESS</span>
+        </span>
+        <span class="text-[10px] font-mono uppercase tracking-widest px-2 py-0.5 rounded-full bg-white/15 text-current border border-current/10 ml-1 hidden sm:inline-block">
+          BZV 242
+        </span>
+      </a>
+
+      <!-- Navigation Links -->
+      <div class="hidden md:flex items-center gap-7 text-xs font-semibold tracking-wider uppercase font-outfit">
+        <a href="#artefacts" class="interactive-lift hover:text-argile transition-colors">Artefacts</a>
+        <a href="#manifeste" class="interactive-lift hover:text-argile transition-colors">Manifeste</a>
+        <a href="#protocole" class="interactive-lift hover:text-argile transition-colors">Protocole</a>
+        <a href="#tarifs" class="interactive-lift hover:text-argile transition-colors">Tarifs</a>
+      </div>
+
+      <!-- Magnetic CTA Button -->
+      <button
+        onclick="openOrderModal('Express Prioritaire')"
+        class="btn-magnetic bg-argile text-white text-xs uppercase tracking-wider px-5 py-2.5 shadow-md shadow-argile/25"
+      >
+        <span class="btn-slide-bg bg-mousse"></span>
+        <span class="btn-content">
+          <span>Commander</span>
+          <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+        </span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- ====================================================================
+      B. SECTION HERO — "Le Plan d'Ouverture"
+      ==================================================================== -->
+  <section 
+    id="hero-section"
+    class="relative min-h-screen lg:min-h-[100dvh] w-full flex flex-col justify-end pt-36 sm:pt-40 md:pt-44 pb-14 md:pb-20 px-6 md:px-16 overflow-hidden bg-charbon"
+  >
+    <!-- Background image using user's background.jpg -->
+    <div 
+      class="absolute inset-0 bg-cover bg-center md:bg-right scale-105 transition-transform duration-1000 ease-out"
+      style="background-image: url('./background.jpg');"
+    ></div>
+
+    <!-- Smooth cinematic gradient overlay: gives clear visibility to the delivery illustration while making text pop -->
+    <div class="absolute inset-0 bg-gradient-to-r from-charbon/90 via-charbon/65 to-charbon/20"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-charbon via-charbon/40 to-charbon/50"></div>
+
+    <!-- Hero Content pushed safely below the floating navbar -->
+    <div class="relative z-10 max-w-4xl pt-6 sm:pt-8 md:pt-10">
+      
+      <!-- Monospace Pill Badge -->
+      <div class="hero-badge inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-charbon/60 sm:bg-white/10 backdrop-blur-md border border-white/20 text-creme text-xs font-mono tracking-widest uppercase mb-5 shadow-lg">
+        <span class="w-2.5 h-2.5 rounded-full bg-argile animate-pulse"></span>
+        <span class="font-semibold">INFRASTRUCTURE DE LIVRAISON IMMÉDIATE // BRAZZAVILLE</span>
+      </div>
+
+      <!-- Contrast Typographic Hero Pattern -->
+      <h1 class="flex flex-col tracking-tight text-white mb-5">
+        <span class="hero-title-sans font-display font-extrabold text-2xl sm:text-3xl md:text-4xl uppercase tracking-wider text-creme/90">
+          ZUA Express est le
+        </span>
+        <span class="hero-title-serif font-serif italic text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-creme leading-[0.95] mt-1 font-normal">
+          Flux Absolu.
+        </span>
+      </h1>
+
+      <!-- Clinical Descriptor -->
+      <p class="hero-desc text-creme/80 text-base sm:text-lg md:text-xl font-outfit max-w-2xl font-light leading-relaxed mb-7">
+        L'instrument de vélocité urbaine de référence. Acheminement instantané de vos plis stratégiques, colis 
+        d'élite et courses critiques en moins de 45 minutes d'un bout à l'autre de Brazzaville.
+      </p>
+
+      <!-- CTA Group with Magnetic Buttons -->
+      <div class="hero-cta-group flex flex-wrap items-center gap-4">
+        <button
+          onclick="openOrderModal('Express Prioritaire')"
+          class="btn-magnetic bg-argile text-white px-8 py-4 text-sm md:text-base font-semibold uppercase tracking-wider shadow-xl shadow-argile/30"
+        >
+          <span class="btn-slide-bg bg-mousse"></span>
+          <span class="btn-content">
+            <span>Commander maintenant</span>
+            <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+          </span>
+        </button>
+
+        <a
+          href="#artefacts"
+          class="btn-magnetic bg-white/10 hover:bg-white/20 text-white backdrop-blur-md border border-white/20 px-7 py-4 text-sm uppercase tracking-wider font-semibold"
+        >
+          <span class="btn-content">
+            <span>Explorer les artefacts</span>
+            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+          </span>
+        </a>
+      </div>
+
+      <!-- Hero Telemetry Bar -->
+      <div class="hero-telemetry-bar mt-8 md:mt-10 pt-5 border-t border-white/15 grid grid-cols-2 sm:grid-cols-3 gap-6 font-mono text-xs text-creme/70">
+        <div>
+          <span class="block text-creme/40 uppercase tracking-widest text-[10px]">Zone Active</span>
+          <span class="font-semibold text-creme">Périmètre Brazzaville 360°</span>
+        </div>
+        <div>
+          <span class="block text-creme/40 uppercase tracking-widest text-[10px]">Latence Moyenne</span>
+          <span class="font-semibold text-argile font-bold">24 min porte-à-porte</span>
+        </div>
+        <div class="hidden sm:block">
+          <span class="block text-creme/40 uppercase tracking-widest text-[10px]">Disponibilité</span>
+          <span class="font-semibold text-emerald-400 flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+            Opérationnel 24h / 7j
+          </span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ====================================================================
+      C. FONCTIONNALITES — "Artefacts Fonctionnels Interactifs"
+      ==================================================================== -->
+  <section id="artefacts" class="py-28 md:py-36 px-6 md:px-16 max-w-7xl mx-auto">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+      <div>
+        <div class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-mousse font-bold mb-3">
+          <i data-lucide="layers" class="w-4 h-4 text-argile"></i>
+          <span>SYSTÈMES INTERACTIFS DÉDIÉS</span>
+        </div>
+        <h2 class="font-display font-bold text-3xl md:text-5xl tracking-tight text-charbon">
+          Trois artefacts de précision clinique.
+        </h2>
+      </div>
+      <p class="font-outfit text-charbon/70 max-w-md text-sm md:text-base">
+        Chaque carte constitue un instrument fonctionnel en temps réel conçu pour éradiquer 
+        l’aléa du transport urbain.
+      </p>
+    </div>
+
+    <!-- 3 Artefact Cards -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      
+      <!-- CARTE 1 — "Mélangeur Diagnostique" -->
+      <div class="feature-card bg-creme-surface border border-mousse/15 rounded-[2.5rem] p-8 flex flex-col justify-between shadow-xl shadow-mousse/5 relative overflow-hidden">
+        <div>
+          <div class="flex items-center justify-between mb-6">
+            <span class="text-xs font-mono uppercase tracking-wider text-mousse/60">
+              ARTEFACT // 01
+            </span>
+            <button 
+              onclick="triggerShufflerManual()"
+              class="text-[11px] font-mono bg-mousse/10 hover:bg-mousse/20 text-mousse px-3 py-1 rounded-full transition-colors flex items-center gap-1"
+            >
+              <i data-lucide="sparkles" class="w-3 h-3 text-argile"></i>
+              <span>Cycler (3s)</span>
+            </button>
+          </div>
+
+          <h3 class="font-display font-extrabold text-2xl text-charbon mb-2">
+            Mélangeur Diagnostique
+          </h3>
+          <p class="font-outfit text-xs text-charbon/70 mb-6">
+            Livraison express certifiée : rotation dynamique des états de transit et réallocation instantanée.
+          </p>
+        </div>
+
+        <!-- Stacked 3 Cards Container -->
+        <div id="shuffler-container" class="relative h-64 w-full flex items-center justify-center my-4">
+          <!-- Card 1 -->
+          <div id="scard-1" class="shuffler-card-transition absolute inset-x-0 p-5 rounded-[2rem] border shadow-md border-mousse/20 bg-creme-surface">
+            <div class="flex items-center justify-between text-[10px] font-mono tracking-wider text-mousse font-bold mb-2">
+              <span>DISPATCH // AUTO-ROUTAGE</span>
+              <span class="text-argile font-bold">0.8 min</span>
+            </div>
+            <div class="font-display font-bold text-base text-charbon mb-1">
+              Allocation Algorithmique
+            </div>
+            <p class="font-outfit text-xs text-charbon/70 leading-relaxed">
+              Trilatération du coursier d’élite disponible en moins de 60 secondes.
+            </p>
+            <div class="mt-3 pt-2 border-t border-mousse/10 flex items-center justify-between text-[10px] font-mono text-charbon/60">
+              <span>Temps de matching moyen</span>
+              <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-600"></i>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div id="scard-2" class="shuffler-card-transition absolute inset-x-0 p-5 rounded-[2rem] border shadow-md border-argile/30 bg-[#FFF7F4]">
+            <div class="flex items-center justify-between text-[10px] font-mono tracking-wider text-mousse font-bold mb-2">
+              <span>TRAÇABILITÉ // SCELLÉ</span>
+              <span class="text-argile font-bold">100%</span>
+            </div>
+            <div class="font-display font-bold text-base text-charbon mb-1">
+              Scellé Numérique Confidentiel
+            </div>
+            <p class="font-outfit text-xs text-charbon/70 leading-relaxed">
+              OTP cryptographique dynamique délivré à l’expéditeur et au destinataire.
+            </p>
+            <div class="mt-3 pt-2 border-t border-mousse/10 flex items-center justify-between text-[10px] font-mono text-charbon/60">
+              <span>Conformité protocolaire</span>
+              <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-600"></i>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div id="scard-3" class="shuffler-card-transition absolute inset-x-0 p-5 rounded-[2rem] border shadow-md border-mousse/20 bg-[#F4F6F5]">
+            <div class="flex items-center justify-between text-[10px] font-mono tracking-wider text-mousse font-bold mb-2">
+              <span>VÉLOCITÉ // URBAINE</span>
+              <span class="text-argile font-bold">32 min</span>
+            </div>
+            <div class="font-display font-bold text-base text-charbon mb-1">
+              Acheminement Sans Escale
+            </div>
+            <p class="font-outfit text-xs text-charbon/70 leading-relaxed">
+              Couloir direct d'évitement des congestions (Plateau, Bacongo, Ouenzé).
+            </p>
+            <div class="mt-3 pt-2 border-t border-mousse/10 flex items-center justify-between text-[10px] font-mono text-charbon/60">
+              <span>Durée record porte-à-porte</span>
+              <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-600"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-6 border-t border-mousse/10 flex items-center justify-between text-xs font-mono text-mousse/80">
+          <span>Statut : Boucle active</span>
+          <span class="font-bold text-argile">Livraison Express</span>
+        </div>
+      </div>
+
+      <!-- CARTE 2 — "Machine à Écrire Télémétrie" -->
+      <div class="feature-card bg-charbon text-white border border-white/10 rounded-[2.5rem] p-8 flex flex-col justify-between shadow-xl shadow-black/20 relative overflow-hidden">
+        <div>
+          <div class="flex items-center justify-between mb-6">
+            <span class="text-xs font-mono uppercase tracking-wider text-white/50">
+              ARTEFACT // 02
+            </span>
+            <!-- Live stream badge with pulsating dot -->
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-[11px] font-mono font-medium">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+              <span>Flux en Direct</span>
+            </div>
+          </div>
+
+          <h3 class="font-display font-extrabold text-2xl text-creme mb-2">
+            Télémétrie 24h / 24
+          </h3>
+          <p class="font-outfit text-xs text-creme/60 mb-6">
+            Surveillance continue jour et nuit. Capture caractère par caractère du journal des courses en temps réel à Brazzaville.
+          </p>
+        </div>
+
+        <!-- Terminal Console -->
+        <div class="bg-charbon-deep border border-white/10 rounded-2xl p-5 my-4 min-h-[170px] flex flex-col justify-between font-mono text-xs shadow-inner">
+          <div class="flex items-center justify-between pb-3 border-b border-white/10 text-[10px] text-white/40">
+            <span>CONSOLE-OPS // BZV-SUD-01</span>
+            <span>BAUD 115200</span>
+          </div>
+
+          <div class="py-4 text-emerald-300 font-mono text-[13px] leading-relaxed">
+            <span id="telemetry-text">Chargement du flux...</span>
+            <span class="inline-block w-2 h-4 bg-argile ml-1 translate-y-0.5 animate-pulse"></span>
+          </div>
+
+          <div class="flex items-center justify-between pt-2 border-t border-white/5 text-[10px] text-white/40">
+            <span>Latence satellite : 12ms</span>
+            <span class="text-argile font-semibold">24H DISPONIBLE</span>
+          </div>
+        </div>
+
+        <div class="pt-6 border-t border-white/10 flex items-center justify-between text-xs font-mono text-creme/60">
+          <span>Opérations nocturnes actives</span>
+          <span class="text-emerald-400 font-bold">100% Connecté</span>
+        </div>
+      </div>
+
+      <!-- CARTE 3 — "Planificateur Protocole Curseur" -->
+      <div class="feature-card bg-creme-surface border border-mousse/15 rounded-[2.5rem] p-8 flex flex-col justify-between shadow-xl shadow-mousse/5 relative overflow-hidden">
+        <div>
+          <div class="flex items-center justify-between mb-6">
+            <span class="text-xs font-mono uppercase tracking-wider text-mousse/60">
+              ARTEFACT // 03
+            </span>
+            <div class="text-[11px] font-mono text-mousse bg-mousse/10 px-3 py-1 rounded-full font-semibold">
+              PROTOCOLE PRO
+            </div>
+          </div>
+
+          <h3 class="font-display font-extrabold text-2xl text-charbon mb-2">
+            Planificateur Curseur
+          </h3>
+          <p class="font-outfit text-xs text-charbon/70 mb-6">
+            Cadencement et réservation de vos tournées récurrentes avec un protocole de rigueur professionnelle.
+          </p>
+        </div>
+
+        <!-- Weekly Grid with Animated Simulated SVG Cursor -->
+        <div class="relative bg-creme border border-mousse/10 rounded-2xl p-5 my-4">
+          <div class="text-[11px] font-mono font-bold text-mousse mb-3 flex items-center justify-between">
+            <span>GRILLE HEBDOMADAIRE</span>
+            <span id="planner-day-label" class="text-argile font-semibold">Jeudi</span>
+          </div>
+
+          <!-- Day cells -->
+          <div class="grid grid-cols-7 gap-2 mb-5" id="planner-grid">
+            <button onclick="selectPlannerDay(0)" class="planner-btn h-11 rounded-xl flex flex-col items-center justify-center font-mono font-bold text-xs bg-white text-charbon/80 border border-mousse/10 transition-all"><span>L</span><span class="text-[8px] opacity-75">10</span></button>
+            <button onclick="selectPlannerDay(1)" class="planner-btn h-11 rounded-xl flex flex-col items-center justify-center font-mono font-bold text-xs bg-white text-charbon/80 border border-mousse/10 transition-all"><span>M</span><span class="text-[8px] opacity-75">11</span></button>
+            <button onclick="selectPlannerDay(2)" class="planner-btn h-11 rounded-xl flex flex-col items-center justify-center font-mono font-bold text-xs bg-white text-charbon/80 border border-mousse/10 transition-all"><span>M</span><span class="text-[8px] opacity-75">12</span></button>
+            <button onclick="selectPlannerDay(3)" class="planner-btn h-11 rounded-xl flex flex-col items-center justify-center font-mono font-bold text-xs bg-argile text-white shadow-md shadow-argile/30 scale-105 border border-transparent transition-all"><span>J</span><span class="text-[8px] opacity-75">13</span></button>
+            <button onclick="selectPlannerDay(4)" class="planner-btn h-11 rounded-xl flex flex-col items-center justify-center font-mono font-bold text-xs bg-white text-charbon/80 border border-mousse/10 transition-all"><span>V</span><span class="text-[8px] opacity-75">14</span></button>
+            <button onclick="selectPlannerDay(5)" class="planner-btn h-11 rounded-xl flex flex-col items-center justify-center font-mono font-bold text-xs bg-white text-charbon/80 border border-mousse/10 transition-all"><span>S</span><span class="text-[8px] opacity-75">15</span></button>
+            <button onclick="selectPlannerDay(6)" class="planner-btn h-11 rounded-xl flex flex-col items-center justify-center font-mono font-bold text-xs bg-white text-charbon/80 border border-mousse/10 transition-all"><span>D</span><span class="text-[8px] opacity-75">16</span></button>
+          </div>
+
+          <!-- Save Button -->
+          <div class="flex items-center justify-between pt-2">
+            <span class="text-[10px] font-mono text-charbon/50">
+              Plage garantie : 08h00 - 18h00
+            </span>
+            <button
+              id="planner-save-btn"
+              onclick="openOrderModal('Planification Semaine')"
+              class="px-4 py-2 rounded-full text-xs font-mono font-bold bg-mousse text-white hover:bg-mousse-dark transition-all"
+            >
+              Sauvegarder
+            </button>
+          </div>
+
+          <!-- Animated SVG Cursor -->
+          <div 
+            id="planner-cursor" 
+            class="absolute pointer-events-none transition-all duration-500 ease-out z-20"
+            style="top: 35%; left: 52%;"
+          >
+            <svg class="w-6 h-6 drop-shadow-md text-charbon fill-current" viewBox="0 0 24 24">
+              <path d="M4 0l16 12-7.5 1.5 4.5 9-3 1.5-4.5-9-5.5 5.5z" />
+            </svg>
+          </div>
+        </div>
+
+        <div class="pt-6 border-t border-mousse/10 flex items-center justify-between text-xs font-mono text-mousse/80">
+          <span>Engagement : Ponctualité 100%</span>
+          <span class="font-bold text-argile">Service Professionnel</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ====================================================================
+      D. PHILOSOPHIE — "Le Manifeste"
+      ==================================================================== -->
+  <section 
+    id="manifeste"
+    class="relative w-full py-32 md:py-44 px-6 md:px-20 bg-charbon text-creme overflow-hidden"
+  >
+    <!-- Organic botanical texture with low opacity -->
+    <div 
+      class="absolute inset-0 bg-cover bg-center opacity-15 mix-blend-luminosity pointer-events-none"
+      style="background-image: url('https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=2000&q=85');"
+    ></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-charbon via-transparent to-charbon"></div>
+
+    <div class="relative z-10 max-w-5xl mx-auto">
+      <!-- Label -->
+      <div class="manifesto-reveal inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-argile mb-8">
+        <i data-lucide="radio" class="w-4 h-4 animate-pulse"></i>
+        <span>MANIFESTE LOGISTIQUE // 02</span>
+      </div>
+
+      <!-- Statement 1: Neutral, smaller -->
+      <p class="manifesto-reveal font-display font-medium text-lg sm:text-2xl md:text-3xl text-creme/50 mb-8 max-w-3xl leading-relaxed">
+        La plupart des services de livraison se concentrent sur : l’attente passive, 
+        l’opacité des trajets et l’incertitude urbaine permanente.
+      </p>
+
+      <!-- Statement 2: Massive dramatic italic serif with accent keyword -->
+      <h2 class="manifesto-reveal font-serif italic text-4xl sm:text-6xl md:text-8xl text-creme leading-[1.05] tracking-tight">
+        Nous nous concentrons sur : la <span class="text-argile underline decoration-argile/40 underline-offset-8">fluidité chirurgicale</span> et la <span class="text-argile underline decoration-argile/40 underline-offset-8">célérité absolue</span> à Brazzaville.
+      </h2>
+
+      <div class="manifesto-reveal mt-16 pt-10 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 font-mono text-xs text-creme/60">
+        <div class="flex items-center gap-3">
+          <span class="w-3 h-3 rounded-full bg-argile"></span>
+          <span>Chaque kilomètre est pré-calculé, géo-scellé et sous contrôle.</span>
+        </div>
+        <span>CONGO LOGISTICS PROTOCOL // STANDARD CERTIFIÉ</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================================
+      E. PROTOCOLE — "Archive Empilée Sticky"
+      ==================================================================== -->
+  <section 
+    id="protocole" 
+    class="relative py-24 bg-creme"
+  >
+    <div class="max-w-5xl mx-auto px-6 mb-16">
+      <div class="text-xs font-mono uppercase tracking-widest text-mousse font-bold mb-2">
+        MÉTHODOLOGIE ÉTAPE PAR ÉTAPE
+      </div>
+      <h2 class="font-display font-bold text-3xl md:text-5xl text-charbon">
+        L'Archive Empilée Sticky
+      </h2>
+      <p class="font-outfit text-charbon/70 mt-2 text-sm md:text-base">
+        Trois cartes souveraines qui s'empilent au scroll avec effet d'échelle, flou et amorti.
+      </p>
+    </div>
+
+    <!-- 3 Stacked Cards Container -->
+    <div class="max-w-5xl mx-auto px-6 space-y-12 pb-24">
+      
+      <!-- CARTE 1: Motif géométrique en rotation lente -->
+      <div class="protocol-card min-h-[480px] w-full bg-creme-surface border border-mousse/20 rounded-[3rem] p-8 md:p-14 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-10">
+        <div class="max-w-md">
+          <span class="font-mono text-sm tracking-widest text-argile font-bold uppercase block mb-3">
+            PROTOCOLE // 01
+          </span>
+          <h3 class="font-display font-extrabold text-3xl md:text-4xl text-charbon mb-4">
+            Capture & Indexation Immédiate
+          </h3>
+          <p class="font-outfit text-charbon/75 leading-relaxed text-base mb-6">
+            Saisie instantanée de votre commande en 1 tap. Attribution instantanée par notre algorithme 
+            au coursier d'élite le plus proche de votre adresse à Brazzaville.
+          </p>
+          <div class="font-mono text-xs text-mousse flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-mousse"></span>
+            <span>Délai moyen d'assignation : 45 secondes</span>
+          </div>
+        </div>
+
+        <!-- Unique SVG Animation 1: Concentric Rings & Geometry -->
+        <div class="w-56 h-56 md:w-72 md:h-72 flex items-center justify-center relative">
+          <svg 
+            class="w-full h-full animate-rotate-slow text-mousse" 
+            viewBox="0 0 200 200" 
+            fill="none" 
+            stroke="currentColor"
+          >
+            <circle cx="100" cy="100" r="90" stroke-width="1" stroke-dasharray="6 6"></circle>
+            <circle cx="100" cy="100" r="70" stroke-width="1.5"></circle>
+            <circle cx="100" cy="100" r="50" stroke-width="1" stroke-dasharray="3 3"></circle>
+            <circle cx="100" cy="100" r="30" stroke-width="2" stroke="var(--color-argile)"></circle>
+            <line x1="100" y1="10" x2="100" y2="190" stroke-width="0.8" stroke-opacity="0.4"></line>
+            <line x1="10" y1="100" x2="190" y2="100" stroke-width="0.8" stroke-opacity="0.4"></line>
+            <polygon points="100,20 170,140 30,140" stroke-width="1" stroke-opacity="0.6"></polygon>
+            <polygon points="100,180 30,60 170,60" stroke-width="1" stroke-opacity="0.6"></polygon>
+          </svg>
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="w-8 h-8 rounded-full bg-argile/20 flex items-center justify-center">
+              <div class="w-3 h-3 rounded-full bg-argile"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARTE 2: Ligne laser horizontale de balayage -->
+      <div class="protocol-card min-h-[480px] w-full bg-mousse text-white border border-mousse-dark rounded-[3rem] p-8 md:p-14 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-10">
+        <div class="max-w-md">
+          <span class="font-mono text-sm tracking-widest text-argile-light font-bold uppercase block mb-3">
+            PROTOCOLE // 02
+          </span>
+          <h3 class="font-display font-extrabold text-3xl md:text-4xl text-creme mb-4">
+            Acheminement Balisé & Trajectoire Directe
+          </h3>
+          <p class="font-outfit text-creme/80 leading-relaxed text-base mb-6">
+            Navigation continue sans escale ni groupage parasite. Vos plis sensibles transitent dans un compartiment scellé sous surveillance géolocalisée.
+          </p>
+          <div class="font-mono text-xs text-creme/70 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span>Régulation de vitesse & respect strict des délais</span>
+          </div>
+        </div>
+
+        <!-- Unique SVG Animation 2: Laser horizontal sweep line on dot grid -->
+        <div class="w-56 h-56 md:w-72 md:h-72 bg-mousse-dark/60 rounded-3xl p-6 relative overflow-hidden border border-white/10 flex flex-col justify-between">
+          <div class="grid grid-cols-6 gap-4 h-full w-full opacity-60">
+            <div class="flex items-center justify-center"><span class="w-1.5 h-1.5 rounded-full bg-creme/50"></span></div>
+            <div class="flex items-center justify-center"><span class="w-1.5 h-1.5 rounded-full bg-creme/50"></span></div>
+            <div class="flex items-center justify-center"><span class="w-1.5 h-1.5 rounded-full bg-creme/50"></span></div>
+            <div class="flex items-center justify-center"><span class="w-1.5 h-1.5 rounded-full bg-creme/50"></span></div>
+            <div class="flex items-center justify-center"><span class="w-1.5 h-1.5 rounded-full bg-creme/50"></span></div>
+            <div class="flex items-center justify-center"><span class="w-1.5 h-1.5 rounded-full bg-creme/50"></span></div>
+            <div class="flex items-center justify-center"><span class="w-1.5 h-1.5 rounded-full bg-creme/50"></span></div>
+            <div class="flex items-center justify-center"><span class="w-1.5 h-1.5 rounded-full bg-creme/50"></span></div>
+            <div class="flex items-center justify-center"><span class="w-1.5 h-1.5 rounded-full bg-creme/50"></span></div>
+            <div class="flex items-center justify-center"><span class="w-1.5 h-1.5 rounded-full bg-creme/50"></span></div>
+            <div class="flex items-center justify-center"><span class="w-1.5 h-1.5 rounded-full bg-creme/50"></span></div>
+            <div class="flex items-center justify-center"><span class="w-1.5 h-1.5 rounded-full bg-creme/50"></span></div>
+            <div class="flex items-center justify-center"><span class="w-1.5 h-1.5 rounded-full bg-creme/50"></span></div>
+            <div class="flex items-center justify-center"><span class="w-1.5 h-1.5 rounded-full bg-creme/50"></span></div>
+            <div class="flex items-center justify-center"><span class="w-1.5 h-1.5 rounded-full bg-creme/50"></span></div>
+            <div class="flex items-center justify-center"><span class="w-1.5 h-1.5 rounded-full bg-creme/50"></span></div>
+            <div class="flex items-center justify-center"><span class="w-1.5 h-1.5 rounded-full bg-creme/50"></span></div>
+            <div class="flex items-center justify-center"><span class="w-1.5 h-1.5 rounded-full bg-creme/50"></span></div>
+          </div>
+          
+          <div class="absolute left-0 right-0 h-1 bg-gradient-to-r from-transparent via-argile to-transparent shadow-[0_0_15px_#CC5833] animate-sweep-laser"></div>
+
+          <div class="absolute bottom-3 right-4 font-mono text-[10px] text-creme/60">
+            SCAN CORRIDOR // BZV
+          </div>
+        </div>
+      </div>
+
+      <!-- CARTE 3: Forme d'onde pulsante ECG -->
+      <div class="protocol-card min-h-[480px] w-full bg-charbon text-white border border-white/10 rounded-[3rem] p-8 md:p-14 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-10">
+        <div class="max-w-md">
+          <span class="font-mono text-sm tracking-widest text-argile font-bold uppercase block mb-3">
+            PROTOCOLE // 03
+          </span>
+          <h3 class="font-display font-extrabold text-3xl md:text-4xl text-creme mb-4">
+            Remise Certifiée & Clôture Sécurisée
+          </h3>
+          <p class="font-outfit text-creme/80 leading-relaxed text-base mb-6">
+            Validation physique et numérique avec confirmation instantanée par SMS/WhatsApp. Rapport de mission horodaté délivré à la seconde exacte.
+          </p>
+          <div class="font-mono text-xs text-argile flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-argile"></span>
+            <span>Certification conforme 100% sans litige</span>
+          </div>
+        </div>
+
+        <!-- Unique SVG Animation 3: Pulsing ECG Waveform -->
+        <div class="w-56 h-56 md:w-72 md:h-72 bg-charbon-deep rounded-3xl p-6 relative border border-white/10 flex items-center justify-center">
+          <svg class="w-full h-32" viewBox="0 0 300 120" fill="none">
+            <line x1="0" y1="60" x2="300" y2="60" stroke="rgba(255,255,255,0.1)" stroke-dasharray="4 4"></line>
+            <path
+              d="M0 60 L60 60 L80 60 L95 20 L110 100 L125 40 L135 75 L145 60 L200 60 L215 30 L230 90 L245 60 L300 60"
+              stroke="#CC5833"
+              stroke-width="3"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="drop-shadow-[0_0_8px_#CC5833] animate-pulse-glow"
+            ></path>
+          </svg>
+          <div class="absolute top-4 left-5 font-mono text-[10px] text-white/40">
+            PULSE DE CONFIRMATION
+          </div>
+          <div class="absolute bottom-4 right-5 font-mono text-[10px] text-emerald-400">
+            LIVRAISON VALIDÉE
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ====================================================================
+      F. ADHÉSION / TARIFICATION
+      ==================================================================== -->
+  <section id="tarifs" class="py-28 md:py-36 px-6 md:px-16 max-w-7xl mx-auto">
+    <div class="text-center max-w-3xl mx-auto mb-20">
+      <div class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-mousse font-bold mb-3">
+        <span>BARÈME TRANSPARENT // FORMULES SUR-MESURE</span>
+      </div>
+      <h2 class="font-display font-bold text-3xl md:text-5xl tracking-tight text-charbon mb-4">
+        Choisissez votre vitesse d’exécution.
+      </h2>
+      <p class="font-outfit text-charbon/70 text-base">
+        Aucun coût caché. Tous nos tarifs incluent l’assurance traçabilité et le suivi par coursier dédié à Brazzaville.
+      </p>
+    </div>
+
+    <!-- 3 Tier Grid - Center Card Colored #2E4036 & Accent #CC5833 -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+      
+      <!-- TIER 1: Standard / Course Urbaine -->
+      <div class="pricing-card bg-creme-surface border border-mousse/15 rounded-[2.5rem] p-9 flex flex-col justify-between shadow-lg">
+        <div>
+          <div class="font-mono text-xs uppercase tracking-wider text-mousse/60 mb-2">
+            NIVEAU 01 // ESSENTIEL
+          </div>
+          <h3 class="font-display font-bold text-2xl text-charbon mb-3">
+            Course Urbaine
+          </h3>
+          <p class="font-outfit text-xs text-charbon/70 mb-6">
+            Idéal pour les plis, documents légaux, clés et petits colis du quotidien.
+          </p>
+          <div class="mb-8">
+            <span class="font-display font-extrabold text-4xl text-charbon">2 500</span>
+            <span class="font-mono text-xs text-charbon/60 ml-2">FCFA / course</span>
+          </div>
+
+          <ul class="space-y-3 font-outfit text-xs text-charbon/80 mb-8">
+            <li class="flex items-center gap-2.5">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-mousse"></i>
+              <span>Délai estimé : 60 à 90 minutes</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-mousse"></i>
+              <span>Suivi de progression par SMS</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-mousse"></i>
+              <span>Couverture tous arrondissements</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-mousse"></i>
+              <span>Remise contre signature</span>
+            </li>
+          </ul>
+        </div>
+
+        <button
+          onclick="openOrderModal('Course Urbaine')"
+          class="btn-magnetic w-full bg-mousse/10 hover:bg-mousse hover:text-white text-mousse py-3.5 text-xs font-semibold uppercase tracking-wider transition-all"
+        >
+          <span class="btn-content">
+            <span>Commander cette formule</span>
+            <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+          </span>
+        </button>
+      </div>
+
+      <!-- TIER 2: Center Card: Primary Background #2E4036, Accent Button #CC5833 -->
+      <div class="pricing-card bg-mousse text-white border-2 border-argile rounded-[2.5rem] p-9 flex flex-col justify-between shadow-2xl relative lg:-translate-y-4 scale-100 lg:scale-105 z-10">
+        <!-- Badge -->
+        <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-argile text-white font-mono text-[10px] uppercase font-bold tracking-widest px-4 py-1 rounded-full shadow-md">
+          ★ RECOMMANDÉ & PRIORITAIRE
+        </div>
+
+        <div>
+          <div class="font-mono text-xs uppercase tracking-wider text-argile-light mb-2">
+            NIVEAU 02 // PERFORMANCE
+          </div>
+          <h3 class="font-display font-extrabold text-2xl text-creme mb-3">
+            Express Prioritaire
+          </h3>
+          <p class="font-outfit text-xs text-creme/75 mb-6">
+            Départ immédiat. Coursier dédié affecté exclusivement à votre trajet.
+          </p>
+          <div class="mb-8">
+            <span class="font-display font-extrabold text-4xl text-creme">5 000</span>
+            <span class="font-mono text-xs text-creme/60 ml-2">FCFA / course</span>
+          </div>
+
+          <ul class="space-y-3 font-outfit text-xs text-creme/90 mb-8">
+            <li class="flex items-center gap-2.5">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-argile"></i>
+              <span class="font-bold">Livraison garantie &lt; 40 minutes</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-argile"></i>
+              <span>Coursier dédié sans détour ni groupage</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-argile"></i>
+              <span>Suivi GPS en temps réel partagé</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-argile"></i>
+              <span>Scellé numérique inviolable OTP</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-argile"></i>
+              <span>Support prioritaire ligne directe</span>
+            </li>
+          </ul>
+        </div>
+
+        <button
+          onclick="openOrderModal('Express Prioritaire')"
+          class="btn-magnetic w-full bg-argile text-white py-4 text-xs font-semibold uppercase tracking-wider shadow-lg shadow-argile/40"
+        >
+          <span class="btn-slide-bg bg-charbon"></span>
+          <span class="btn-content">
+            <span>Commander maintenant</span>
+            <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+          </span>
+        </button>
+      </div>
+
+      <!-- TIER 3: Institutional / Flotte Entreprise -->
+      <div class="pricing-card bg-creme-surface border border-mousse/15 rounded-[2.5rem] p-9 flex flex-col justify-between shadow-lg">
+        <div>
+          <div class="font-mono text-xs uppercase tracking-wider text-mousse/60 mb-2">
+            NIVEAU 03 // INSTITUTIONNEL
+          </div>
+          <h3 class="font-display font-bold text-2xl text-charbon mb-3">
+            Flotte Entreprise
+          </h3>
+          <p class="font-outfit text-xs text-charbon/70 mb-6">
+            Pour e-commerces, cabinets, pharmacies et institutions avec flux régulier.
+          </p>
+          <div class="mb-8">
+            <span class="font-display font-extrabold text-4xl text-charbon">Sur-mesure</span>
+            <span class="font-mono text-xs text-charbon/60 ml-2">Abonnement / Volume</span>
+          </div>
+
+          <ul class="space-y-3 font-outfit text-xs text-charbon/80 mb-8">
+            <li class="flex items-center gap-2.5">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-mousse"></i>
+              <span>Coursiers réservés à vos heures de pointe</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-mousse"></i>
+              <span>Facturation mensuelle consolidée</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-mousse"></i>
+              <span>Tableau de bord et API d'intégration</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-mousse"></i>
+              <span>Gestionnaire de compte dédié</span>
+            </li>
+          </ul>
+        </div>
+
+        <button
+          onclick="openOrderModal('Contrat Flotte Entreprise')"
+          class="btn-magnetic w-full bg-mousse/10 hover:bg-mousse hover:text-white text-mousse py-3.5 text-xs font-semibold uppercase tracking-wider transition-all"
+        >
+          <span class="btn-content">
+            <span>Contacter l'équipe Pro</span>
+            <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+          </span>
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ====================================================================
+      G. PIED DE PAGE — "La Clôture Clinique"
+      ==================================================================== -->
+  <footer class="bg-charbon text-creme rounded-t-[4rem] pt-20 pb-12 px-6 md:px-16 mt-20 border-t border-white/10">
+    <div class="max-w-7xl mx-auto">
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 pb-16 border-b border-white/10">
+        <!-- Col 1-2: Brand & Mission -->
+        <div class="lg:col-span-2">
+          <div class="flex items-center gap-2.5 font-bold text-2xl tracking-tight text-white mb-4">
+            <span class="w-3 h-3 rounded-full bg-argile"></span>
+            <span>ZUA EXPRESS</span>
+          </div>
+          <p class="font-outfit text-sm text-creme/70 max-w-sm mb-6 leading-relaxed">
+            L’instrument technologique de vélocité urbaine à Brazzaville. 
+            Acheminement ultra-rapide, géo-sécurisé et confidentiel.
+          </p>
+          
+          <!-- Operational Status with Pulsing Green Dot -->
+          <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/10 font-mono text-xs">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+            <span class="text-emerald-400 font-semibold">SYSTÈME OPÉRATIONNEL</span>
+            <span class="text-white/40">|</span>
+            <span class="text-white/60">DISPATCH 24/7 BZV</span>
+          </div>
+        </div>
+
+        <!-- Col 3: Navigation -->
+        <div>
+          <div class="font-mono text-xs uppercase tracking-widest text-creme/40 mb-4">
+            NAVIGATION
+          </div>
+          <ul class="space-y-3 font-outfit text-sm text-creme/80">
+            <li><a href="#artefacts" class="interactive-lift hover:text-argile">Artefacts</a></li>
+            <li><a href="#manifeste" class="interactive-lift hover:text-argile">Manifeste</a></li>
+            <li><a href="#protocole" class="interactive-lift hover:text-argile">Protocole</a></li>
+            <li><a href="#tarifs" class="interactive-lift hover:text-argile">Grille Tarifaire</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Quartiers Servis -->
+        <div>
+          <div class="font-mono text-xs uppercase tracking-widest text-creme/40 mb-4">
+            ZONES COUVERTES
+          </div>
+          <ul class="space-y-2 font-mono text-xs text-creme/60">
+            <li>Centre-ville (Plateau)</li>
+            <li>Bacongo & Makélékélé</li>
+            <li>Poto-Poto & Moungali</li>
+            <li>Ouenzé & Talangaï</li>
+            <li>Mfilou & Djiri</li>
+          </ul>
+        </div>
+
+        <!-- Col 5: Contact Direct -->
+        <div>
+          <div class="font-mono text-xs uppercase tracking-widest text-creme/40 mb-4">
+            CONTACT DIRECT
+          </div>
+          <ul class="space-y-3 font-outfit text-sm text-creme/80">
+            <li class="flex items-center gap-2">
+              <i data-lucide="phone" class="w-4 h-4 text-argile"></i>
+              <span>+242 06 500 00 00</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <i data-lucide="map-pin" class="w-4 h-4 text-argile"></i>
+              <span>Brazzaville, République du Congo</span>
+            </li>
+            <li class="pt-2">
+              <button
+                onclick="openOrderModal('Urgence WhatsApp')"
+                class="text-xs font-mono text-argile hover:underline flex items-center gap-1.5"
+              >
+                <span>Ligne WhatsApp Directe</span>
+                <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs text-creme/40">
+        <div>
+          © 2026 ZUA Express. Tous droits réservés. Design System Preset A — Tech Organique.
+        </div>
+        <div class="flex gap-6">
+          <a href="#" class="hover:text-creme">Conditions d'acheminement</a>
+          <a href="#" class="hover:text-creme">Protocole de confidentialité</a>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ====================================================================
+      MODALE INTERACTIVE : COMMANDE EXPRESS VIA WHATSAPP
+      ==================================================================== -->
+  <div id="order-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-charbon/80 backdrop-blur-md">
+    <div class="bg-creme-surface border border-mousse/20 rounded-[2.5rem] w-full max-w-lg p-8 shadow-2xl relative">
+      
+      <!-- Close button -->
+      <button
+        onclick="closeOrderModal()"
+        class="absolute top-6 right-6 w-9 h-9 rounded-full bg-charbon/10 hover:bg-charbon/20 flex items-center justify-center text-charbon transition-colors"
+      >
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="mb-6">
+        <span class="font-mono text-xs uppercase tracking-wider text-argile font-bold block mb-1">
+          DISPATCH IMMÉDIAT BRAZZAVILLE
+        </span>
+        <h3 class="font-display font-bold text-2xl text-charbon">
+          Finaliser votre course
+        </h3>
+        <p class="font-outfit text-xs text-charbon/70 mt-1">
+          Formule : <span id="modal-plan-title" class="font-bold text-mousse">Express Prioritaire</span>
+        </p>
+      </div>
+
+      <form onsubmit="handleSendWhatsApp(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-mono font-medium text-charbon mb-1">
+            Nom ou Raison Sociale
+          </label>
+          <input
+            type="text"
+            id="client-name"
+            required
+            placeholder="Ex: Jean Malonga ou Société ABC"
+            class="w-full px-4 py-2.5 rounded-xl border border-mousse/20 bg-white text-sm focus:outline-none focus:border-argile font-outfit"
+          >
+        </div>
+
+        <div>
+          <label class="block text-xs font-mono font-medium text-charbon mb-1">
+            Téléphone / WhatsApp
+          </label>
+          <input
+            type="tel"
+            id="client-phone"
+            required
+            placeholder="+242 06 ... .."
+            class="w-full px-4 py-2.5 rounded-xl border border-mousse/20 bg-white text-sm focus:outline-none focus:border-argile font-outfit"
+          >
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-mono font-medium text-charbon mb-1">
+              Quartier Départ
+            </label>
+            <select
+              id="client-depart"
+              class="w-full px-3 py-2.5 rounded-xl border border-mousse/20 bg-white text-xs focus:outline-none focus:border-argile font-outfit"
+            >
+              <option value="Centre-ville (Plateau)">Centre-ville (Plateau)</option>
+              <option value="Bacongo">Bacongo</option>
+              <option value="Makélékélé">Makélékélé</option>
+              <option value="Poto-Poto">Poto-Poto</option>
+              <option value="Moungali">Moungali</option>
+              <option value="Ouenzé">Ouenzé</option>
+              <option value="Talangaï">Talangaï</option>
+              <option value="Maya-Maya (Aéroport)">Maya-Maya</option>
+              <option value="Djiri">Djiri</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-mono font-medium text-charbon mb-1">
+              Quartier Arrivée
+            </label>
+            <select
+              id="client-arrivee"
+              class="w-full px-3 py-2.5 rounded-xl border border-mousse/20 bg-white text-xs focus:outline-none focus:border-argile font-outfit"
+            >
+              <option value="Bacongo">Bacongo</option>
+              <option value="Centre-ville (Plateau)">Centre-ville (Plateau)</option>
+              <option value="Poto-Poto">Poto-Poto</option>
+              <option value="Moungali">Moungali</option>
+              <option value="Ouenzé">Ouenzé</option>
+              <option value="Talangaï">Talangaï</option>
+              <option value="Makélékélé">Makélékélé</option>
+              <option value="Maya-Maya (Aéroport)">Maya-Maya</option>
+              <option value="Djiri">Djiri</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-mono font-medium text-charbon mb-1">
+            Nature du Colis & Remarques (Optionnel)
+          </label>
+          <textarea
+            id="client-details"
+            rows="2"
+            placeholder="Ex: Enveloppe confidentielle, plis urgents..."
+            class="w-full px-4 py-2 rounded-xl border border-mousse/20 bg-white text-xs focus:outline-none focus:border-argile font-outfit"
+          ></textarea>
+        </div>
+
+        <button
+          type="submit"
+          class="btn-magnetic w-full bg-argile text-white py-4 rounded-full text-xs font-bold uppercase tracking-wider shadow-lg shadow-argile/30 mt-2"
+        >
+          <span class="btn-slide-bg bg-mousse"></span>
+          <span class="btn-content">
+            <span>Envoyer la commande au Dispatch (WhatsApp)</span>
+            <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+          </span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- JavaScript Execution Script: GSAP + Artefacts logic -->
+  <script>
+    // Initialize Lucide Icons
+    if (window.lucide) {
+      lucide.createIcons();
+    }
+
+    // 1. GSAP Scroll Animations & Lifecycles
+    document.addEventListener("DOMContentLoaded", () => {
+      if (window.lucide) {
+        lucide.createIcons();
+      }
+      // Register ScrollTrigger
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Hero Timeline
+      const heroTl = gsap.timeline({ defaults: { ease: "power3.out" } });
+      heroTl
+        .from(".hero-badge", { y: 30, opacity: 0, duration: 0.9, delay: 0.2 })
+        .from(".hero-title-sans", { y: 40, opacity: 0, duration: 1 }, "-=0.6")
+        .from(".hero-title-serif", { y: 50, opacity: 0, duration: 1.2 }, "-=0.7")
+        .from(".hero-desc", { y: 30, opacity: 0, duration: 0.9 }, "-=0.8")
+        .from(".hero-cta-group", { y: 30, opacity: 0, duration: 0.8 }, "-=0.7")
+        .from(".hero-telemetry-bar", { opacity: 0, y: 20, duration: 0.8 }, "-=0.5");
+
+      // Features Cards entrance
+      gsap.from(".feature-card", {
+        scrollTrigger: {
+          trigger: "#artefacts",
+          start: "top 80%",
+        },
+        y: 60,
+        opacity: 0,
+        stagger: 0.15,
+        duration: 1,
+        ease: "power3.out",
+      });
+
+      // Manifesto revelation
+      gsap.from(".manifesto-reveal", {
+        scrollTrigger: {
+          trigger: "#manifeste",
+          start: "top 75%",
+        },
+        y: 40,
+        opacity: 0,
+        stagger: 0.12,
+        duration: 1.2,
+        ease: "power3.out",
+      });
+
+      // Pricing Cards reveal
+      gsap.from(".pricing-card", {
+        scrollTrigger: {
+          trigger: "#tarifs",
+          start: "top 80%",
+        },
+        y: 50,
+        opacity: 0,
+        stagger: 0.15,
+        duration: 1,
+        ease: "power3.out",
+      });
+
+      // Protocol Sticky Stacking Cards
+      const protocolCards = document.querySelectorAll(".protocol-card");
+      protocolCards.forEach((card, idx) => {
+        if (idx < protocolCards.length - 1) {
+          ScrollTrigger.create({
+            trigger: card,
+            start: "top top",
+            endTrigger: protocolCards[idx + 1],
+            end: "top top",
+            pin: true,
+            pinSpacing: false,
+            scrub: true,
+            onUpdate: (self) => {
+              const p = self.progress;
+              gsap.to(card, {
+                scale: 1 - p * 0.1,
+                opacity: 1 - p * 0.5,
+                filter: `blur(${p * 18}px)`,
+                ease: "power2.inOut",
+                overwrite: "auto",
+              });
+            },
+          });
+        }
+      });
+    });
+
+    // 2. Navbar Morphing on Scroll
+    const mainNav = document.getElementById("main-nav");
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 80) {
+        mainNav.classList.remove("bg-charbon/40", "border-white/10", "text-white");
+        mainNav.classList.add("bg-creme/90", "backdrop-blur-xl", "border-mousse/15", "shadow-xl", "shadow-mousse/5", "text-charbon");
+      } else {
+        mainNav.classList.add("bg-charbon/40", "border-white/10", "text-white");
+        mainNav.classList.remove("bg-creme/90", "backdrop-blur-xl", "border-mousse/15", "shadow-xl", "shadow-mousse/5", "text-charbon");
+      }
+    }, { passive: true });
+
+    // 3. Artefact 1: Mélangeur Diagnostique (Diagnostic Shuffler)
+    let shufflerOrder = [1, 2, 3];
+    function renderShuffler() {
+      const cards = [
+        document.getElementById("scard-1"),
+        document.getElementById("scard-2"),
+        document.getElementById("scard-3")
+      ];
+
+      shufflerOrder.forEach((cardId, index) => {
+        const el = document.getElementById(`scard-${cardId}`);
+        if (!el) return;
+        if (index === 0) {
+          el.style.transform = "translateY(0px) scale(1)";
+          el.style.opacity = "1";
+          el.style.zIndex = "3";
+        } else if (index === 1) {
+          el.style.transform = "translateY(22px) scale(0.94)";
+          el.style.opacity = "0.75";
+          el.style.zIndex = "2";
+        } else {
+          el.style.transform = "translateY(44px) scale(0.88)";
+          el.style.opacity = "0.45";
+          el.style.zIndex = "1";
+        }
+      });
+    }
+
+    function triggerShufflerManual() {
+      const last = shufflerOrder.pop();
+      shufflerOrder.unshift(last);
+      renderShuffler();
+    }
+    renderShuffler();
+    setInterval(triggerShufflerManual, 3200);
+
+    // 4. Artefact 2: Machine à Écrire Télémétrie (Live Telemetry Stream)
+    const telemetryLogs = [
+      "[14:02:11] INITIALISATION : Requête d'enlèvement reçue (Centre-ville, Av. Denis Sassou-Nguesso).",
+      "[14:03:04] COURSIER ASSIGNÉ : Agent ZUA-07 géolocalisé à 350m. Scellé biométrique activé.",
+      "[14:05:42] ENLÈVEMENT CERTIFIÉ : Colis pris en charge. Télémétrie GPS active vers Bacongo.",
+      "[14:14:20] COULOIR OPTIMAL : Contournement fluide rond-point Kéba Na Bwanya. Vitesse régulée.",
+      "[14:26:55] DESTINATION ATTEINTE : Bacongo (Quartier Dahomey). Destinataire notifié.",
+      "[14:28:10] REMISE TERMINÉE : Signature cryptographique validée. Temps de transit : 22 min."
+    ];
+
+    let logIndex = 0;
+    let charIndex = 0;
+    const telemetryEl = document.getElementById("telemetry-text");
+
+    function typeTelemetry() {
+      const currentLog = telemetryLogs[logIndex];
+      if (charIndex <= currentLog.length) {
+        telemetryEl.textContent = currentLog.slice(0, charIndex);
+        charIndex++;
+        setTimeout(typeTelemetry, 28);
+      } else {
+        setTimeout(() => {
+          charIndex = 0;
+          logIndex = (logIndex + 1) % telemetryLogs.length;
+          typeTelemetry();
+        }, 2200);
+      }
+    }
+    typeTelemetry();
+
+    // 5. Artefact 3: Planificateur Protocole Curseur
+    const fullDays = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+    let currentDayIdx = 3; // Jeudi
+    const dayLabel = document.getElementById("planner-day-label");
+    const plannerCursor = document.getElementById("planner-cursor");
+    const saveBtn = document.getElementById("planner-save-btn");
+    const dayButtons = document.querySelectorAll(".planner-btn");
+
+    function selectPlannerDay(idx) {
+      currentDayIdx = idx;
+      dayLabel.textContent = fullDays[idx];
+
+      dayButtons.forEach((btn, i) => {
+        if (i === idx) {
+          btn.className = "planner-btn h-11 rounded-xl flex flex-col items-center justify-center font-mono font-bold text-xs bg-argile text-white shadow-md shadow-argile/30 scale-105 border border-transparent transition-all";
+        } else {
+          btn.className = "planner-btn h-11 rounded-xl flex flex-col items-center justify-center font-mono font-bold text-xs bg-white text-charbon/80 border border-mousse/10 transition-all";
+        }
+      });
+    }
+
+    // Auto animated cursor simulation
+    setInterval(() => {
+      // Step 1: Move cursor to next day
+      const nextDay = (currentDayIdx + 1) % 7;
+      plannerCursor.style.opacity = "1";
+      plannerCursor.style.top = "35%";
+      plannerCursor.style.left = `${(nextDay * 13) + 7}%`;
+      plannerCursor.style.transform = "scale(1)";
+
+      setTimeout(() => {
+        // Step 2: Click
+        plannerCursor.style.transform = "scale(0.85)";
+        selectPlannerDay(nextDay);
+
+        setTimeout(() => {
+          // Step 3: Glide to Save button
+          plannerCursor.style.top = "72%";
+          plannerCursor.style.left = "78%";
+          plannerCursor.style.transform = "scale(1)";
+
+          setTimeout(() => {
+            saveBtn.textContent = "Validé ✓";
+            saveBtn.classList.add("bg-emerald-600");
+            saveBtn.classList.remove("bg-mousse");
+
+            setTimeout(() => {
+              saveBtn.textContent = "Sauvegarder";
+              saveBtn.classList.remove("bg-emerald-600");
+              saveBtn.classList.add("bg-mousse");
+              plannerCursor.style.opacity = "0";
+            }, 1000);
+          }, 600);
+        }, 500);
+      }, 700);
+    }, 5500);
+
+    // 6. Modal Functions
+    let currentPlan = 'Express Prioritaire';
+    function openOrderModal(plan) {
+      currentPlan = plan || 'Express Prioritaire';
+      document.getElementById('modal-plan-title').textContent = currentPlan;
+      const modal = document.getElementById('order-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      if (window.lucide) {
+        lucide.createIcons();
+      }
+    }
+
+    function closeOrderModal() {
+      const modal = document.getElementById('order-modal');
+      modal.classList.remove('flex');
+      modal.classList.add('hidden');
+    }
+
+    function handleSendWhatsApp(e) {
+      e.preventDefault();
+      const name = document.getElementById('client-name').value;
+      const phone = document.getElementById('client-phone').value;
+      const depart = document.getElementById('client-depart').value;
+      const arrivee = document.getElementById('client-arrivee').value;
+      const details = document.getElementById('client-details').value;
+
+      const whatsappNumber = '242065000000';
+      const text = encodeURIComponent(
+        `*COMMANDE ZUA EXPRESS BRAZZAVILLE*\n` +
+        `---------------------------------\n` +
+        `Formule : *${currentPlan}*\n` +
+        `Nom : ${name}\n` +
+        `Téléphone : ${phone}\n` +
+        `Quartier Départ : ${depart}\n` +
+        `Quartier Destination : ${arrivee}\n` +
+        `Détails : ${details || 'Non spécifié'}\n` +
+        `Statut : Requête de prise en charge immédiate`
+      );
+
+      window.open(`https://wa.me/${whatsappNumber}?text=${text}`, '_blank');
+      closeOrderModal();
+    }
+  </script>
+</body>
+</html>
