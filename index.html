@@ -243,9 +243,10 @@
       A. NAVBAR — "L'Île Flottante"
       ==================================================================== -->
   <header class="fixed top-6 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none">
-    <nav 
+    <div class="pointer-events-auto relative max-w-4xl w-full">
+    <nav
       id="main-nav"
-      class="pointer-events-auto flex items-center justify-between gap-6 px-6 py-3.5 rounded-full transition-all duration-500 max-w-4xl w-full bg-charbon/40 backdrop-blur-md border border-white/10 text-white"
+      class="flex items-center justify-between gap-3 sm:gap-6 px-4 sm:px-6 py-3.5 rounded-full transition-all duration-500 max-w-4xl w-full bg-charbon/40 backdrop-blur-md border border-white/10 text-white"
     >
       <!-- Brand Logo -->
       <a href="#" class="flex items-center gap-2.5 font-bold tracking-tight text-lg group">
@@ -266,18 +267,56 @@
         <a href="#tarifs" class="interactive-lift hover:text-argile transition-colors">Tarifs</a>
       </div>
 
-      <!-- Magnetic CTA Button -->
-      <button
-        onclick="openOrderModal('Express Prioritaire')"
-        class="btn-magnetic bg-argile text-white text-xs uppercase tracking-wider px-5 py-2.5 shadow-md shadow-argile/25"
-      >
-        <span class="btn-slide-bg bg-mousse"></span>
-        <span class="btn-content">
-          <span>Commander</span>
-          <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
-        </span>
-      </button>
+      <div class="flex items-center gap-2">
+        <!-- Magnetic CTA Button -->
+        <button
+          onclick="closeMobileMenu(); openOrderModal('Express Prioritaire')"
+          class="btn-magnetic bg-argile text-white text-xs uppercase tracking-wider px-4 sm:px-5 py-2.5 shadow-md shadow-argile/25"
+        >
+          <span class="btn-slide-bg bg-mousse"></span>
+          <span class="btn-content">
+            <span>Commander</span>
+            <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+          </span>
+        </button>
+
+        <!-- Mobile Hamburger Toggle -->
+        <button
+          type="button"
+          id="mobile-menu-toggle"
+          onclick="toggleMobileMenu()"
+          class="md:hidden flex items-center justify-center w-10 h-10 rounded-full border border-current/15 hover:text-argile transition-colors"
+          aria-label="Ouvrir le menu"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+        >
+          <span id="mobile-menu-icon-open" class="flex"><i data-lucide="menu" class="w-5 h-5"></i></span>
+          <span id="mobile-menu-icon-close" class="hidden"><i data-lucide="x" class="w-5 h-5"></i></span>
+        </button>
+      </div>
     </nav>
+
+    <!-- Mobile Dropdown Menu -->
+    <div
+      id="mobile-menu"
+      class="md:hidden absolute top-full left-0 right-0 mt-3 rounded-3xl overflow-hidden bg-creme/95 backdrop-blur-xl border border-mousse/15 shadow-xl shadow-mousse/10 text-charbon origin-top transition-all duration-300 opacity-0 -translate-y-3 scale-95 pointer-events-none"
+    >
+      <div class="flex flex-col p-3 text-sm font-semibold tracking-wider uppercase font-outfit">
+        <a href="#artefacts" onclick="closeMobileMenu()" class="flex items-center justify-between px-4 py-3.5 rounded-2xl hover:bg-mousse/10 hover:text-argile transition-colors">
+          <span>Artefacts</span><i data-lucide="chevron-right" class="w-4 h-4 opacity-50"></i>
+        </a>
+        <a href="#manifeste" onclick="closeMobileMenu()" class="flex items-center justify-between px-4 py-3.5 rounded-2xl hover:bg-mousse/10 hover:text-argile transition-colors">
+          <span>Manifeste</span><i data-lucide="chevron-right" class="w-4 h-4 opacity-50"></i>
+        </a>
+        <a href="#protocole" onclick="closeMobileMenu()" class="flex items-center justify-between px-4 py-3.5 rounded-2xl hover:bg-mousse/10 hover:text-argile transition-colors">
+          <span>Protocole</span><i data-lucide="chevron-right" class="w-4 h-4 opacity-50"></i>
+        </a>
+        <a href="#tarifs" onclick="closeMobileMenu()" class="flex items-center justify-between px-4 py-3.5 rounded-2xl hover:bg-mousse/10 hover:text-argile transition-colors">
+          <span>Tarifs</span><i data-lucide="chevron-right" class="w-4 h-4 opacity-50"></i>
+        </a>
+      </div>
+    </div>
+    </div>
   </header>
 
   <!-- ====================================================================
@@ -1291,6 +1330,30 @@
         mainNav.classList.remove("bg-creme/90", "backdrop-blur-xl", "border-mousse/15", "shadow-xl", "shadow-mousse/5", "text-charbon");
       }
     }, { passive: true });
+
+    // 2b. Mobile Hamburger Menu
+    const mobileMenu = document.getElementById("mobile-menu");
+    const mobileMenuToggle = document.getElementById("mobile-menu-toggle");
+    const MENU_HIDDEN = ["opacity-0", "-translate-y-3", "scale-95", "pointer-events-none"];
+    const MENU_VISIBLE = ["opacity-100", "translate-y-0", "scale-100"];
+
+    function setMobileMenu(open) {
+      mobileMenu.classList.remove(...(open ? MENU_HIDDEN : MENU_VISIBLE));
+      mobileMenu.classList.add(...(open ? MENU_VISIBLE : MENU_HIDDEN));
+      document.getElementById("mobile-menu-icon-open").classList.toggle("hidden", open);
+      document.getElementById("mobile-menu-icon-close").classList.toggle("hidden", !open);
+      mobileMenuToggle.setAttribute("aria-expanded", String(open));
+      mobileMenuToggle.setAttribute("aria-label", open ? "Fermer le menu" : "Ouvrir le menu");
+    }
+    function toggleMobileMenu() {
+      setMobileMenu(mobileMenuToggle.getAttribute("aria-expanded") !== "true");
+    }
+    function closeMobileMenu() {
+      setMobileMenu(false);
+    }
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest("header")) closeMobileMenu();
+    });
 
     // 3. Artefact 1: Mélangeur Diagnostique (Diagnostic Shuffler)
     let shufflerOrder = [1, 2, 3];

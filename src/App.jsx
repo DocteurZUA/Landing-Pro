@@ -14,7 +14,8 @@ import {
   Sparkles,
   ChevronRight,
   ExternalLink,
-  X
+  X,
+  Menu
 } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -24,6 +25,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function App() {
   const [navScrolled, setNavScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState('Express Prioritaire');
   
@@ -300,11 +302,12 @@ export default function App() {
           A. NAVBAR — "L'Île Flottante"
           ==================================================================== */}
       <header className="fixed top-6 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none">
-        <nav 
+        <div className="pointer-events-auto relative max-w-4xl w-full">
+        <nav
           ref={navRef}
-          className={`pointer-events-auto flex items-center justify-between gap-6 px-6 py-3.5 rounded-full transition-all duration-500 max-w-4xl w-full ${
-            navScrolled 
-              ? 'bg-creme/85 backdrop-blur-xl border border-mousse/15 shadow-xl shadow-mousse/5 text-charbon' 
+          className={`flex items-center justify-between gap-3 sm:gap-6 px-4 sm:px-6 py-3.5 rounded-full transition-all duration-500 w-full ${
+            navScrolled || isMobileMenuOpen
+              ? 'bg-creme/85 backdrop-blur-xl border border-mousse/15 shadow-xl shadow-mousse/5 text-charbon'
               : 'bg-charbon/40 backdrop-blur-md border border-white/10 text-white'
           }`}
         >
@@ -335,18 +338,63 @@ export default function App() {
             </a>
           </div>
 
-          {/* Magnetic CTA Button */}
-          <button
-            onClick={() => openOrderModal('Express Prioritaire')}
-            className="btn-magnetic bg-argile text-white text-xs uppercase tracking-wider px-5 py-2.5 shadow-md shadow-argile/25"
-          >
-            <span className="btn-slide-bg bg-mousse" />
-            <span className="btn-content">
-              <span>Commander</span>
-              <ArrowUpRight className="w-3.5 h-3.5" />
-            </span>
-          </button>
+          <div className="flex items-center gap-2">
+            {/* Magnetic CTA Button */}
+            <button
+              onClick={() => { setIsMobileMenuOpen(false); openOrderModal('Express Prioritaire'); }}
+              className="btn-magnetic bg-argile text-white text-xs uppercase tracking-wider px-4 sm:px-5 py-2.5 shadow-md shadow-argile/25"
+            >
+              <span className="btn-slide-bg bg-mousse" />
+              <span className="btn-content">
+                <span>Commander</span>
+                <ArrowUpRight className="w-3.5 h-3.5" />
+              </span>
+            </button>
+
+            {/* Mobile Hamburger Toggle */}
+            <button
+              type="button"
+              onClick={() => setIsMobileMenuOpen((open) => !open)}
+              className="md:hidden flex items-center justify-center w-10 h-10 rounded-full border border-current/15 hover:text-argile transition-colors"
+              aria-label={isMobileMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="mobile-menu"
+            >
+              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
+          </div>
         </nav>
+
+        {/* Mobile Dropdown Menu */}
+        <div
+          id="mobile-menu"
+          className={`md:hidden absolute top-full left-0 right-0 mt-3 rounded-3xl overflow-hidden bg-creme/95 backdrop-blur-xl border border-mousse/15 shadow-xl shadow-mousse/10 text-charbon origin-top transition-all duration-300 ${
+            isMobileMenuOpen
+              ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto'
+              : 'opacity-0 -translate-y-3 scale-95 pointer-events-none'
+          }`}
+        >
+          <div className="flex flex-col p-3 text-sm font-semibold tracking-wider uppercase font-outfit">
+            {[
+              ['#artefacts', 'Artefacts'],
+              ['#manifeste', 'Manifeste'],
+              ['#protocole', 'Protocole'],
+              ['#tarifs', 'Tarifs'],
+            ].map(([href, label]) => (
+              <a
+                key={href}
+                href={href}
+                onClick={() => setIsMobileMenuOpen(false)}
+                tabIndex={isMobileMenuOpen ? 0 : -1}
+                className="flex items-center justify-between px-4 py-3.5 rounded-2xl hover:bg-mousse/10 hover:text-argile transition-colors"
+              >
+                <span>{label}</span>
+                <ChevronRight className="w-4 h-4 opacity-50" />
+              </a>
+            ))}
+          </div>
+        </div>
+        </div>
       </header>
 
       {/* ====================================================================
